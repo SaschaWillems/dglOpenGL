@@ -1,8 +1,8 @@
 { ============================================================================
 
        OpenGL 4.4 - Headertranslation
-       Version 4.4a
-       Date : 2014/04/30
+       Version 4.4b
+       Date : 2014/05/08
 
        Supported environments and targets :
         - (Win32) Delphi 4 and up
@@ -406,11 +406,14 @@
                 Added MAX_VERTEX_ATTRIB_STRIDE stat                      (SW)
                 Added missing functions for GL_EXT_direct_state_access   (SW)
                 GL3.0+ uses non-deprecated way of getting extensions
-                (thanks to frenK)  										 (SW)
+                (thanks to frenK)  										                   (SW)
                 Added missing cdecl for TglXGetVisualFromFBConfig        (SW)
- Version 4.4a	Fixed parameter type for glGetProgramInfoLog 			 (SW)
-				(thanks to glAwesome)
-
+ Version 4.4a	  Fixed parameter type for glGetProgramInfoLog 			       (SW)
+			 	        (thanks to glAwesome)
+ Version 4.4b		Fixed parameter type for glGetShaderInfoLog 			       (SW)
+			 	        (thanks to glAwesome)
+ 								Added ARB_sparse_texture                                 (SW)
+                Added ARB_bindless_texture															 (SW)
 
 ==============================================================================
  Header based on glext.h  rev 87 (2012-08-06)
@@ -1013,6 +1016,8 @@ var
     GL_ARB_texture_mirror_clamp_to_edge,
     GL_ARB_texture_stencil8,
     GL_ARB_vertex_type_10f_11f_11f_rev,
+		GL_ARB_bindless_texture,
+  	GL_ARB_sparse_texture,
   // END 4.4
 
   GL_ARB_cl_event,
@@ -4113,6 +4118,20 @@ const
   GL_TEXTURE_SWIZZLE_A = $8E45;
   GL_TEXTURE_SWIZZLE_RGBA = $8E46;
 
+  // GL_ARB_SPARSE_TEXTURE
+  GL_TEXTURE_SPARSE_ARB = $91A6;
+  GL_VIRTUAL_PAGE_SIZE_INDEX_ARB = $91A7;
+  GL_NUM_VIRTUAL_PAGE_SIZES_ARB = $91A8;
+  GL_SPARSE_TEXTURE_FULL_ARRAY_CUBE_MIPMAPS_ARB = $91A9;
+  GL_NUM_SPARSE_LEVELS_ARB = $91AA;
+  GL_VIRTUAL_PAGE_SIZE_X_ARB = $9195;
+  GL_VIRTUAL_PAGE_SIZE_Y_ARB = $9196;
+  GL_VIRTUAL_PAGE_SIZE_Z_ARB = $9197;
+  GL_MAX_SPARSE_TEXTURE_SIZE_ARB = $9198;
+  GL_MAX_SPARSE_3D_TEXTURE_SIZE_ARB = $9199;
+  GL_MAX_SPARSE_ARRAY_TEXTURE_LAYERS_ARB = $919A;
+  GL_MIN_SPARSE_LEVEL_ARB = $919B;
+
   // GL_ARB_timer_query
   GL_TIME_ELAPSED = $88BF;
   GL_TIMESTAMP = $8E28;
@@ -4707,6 +4726,7 @@ const
     GL_SHADER_STORAGE_BARRIER_BIT     = $2000;
     GL_MAX_COMBINED_SHADER_OUTPUT_RESOURCES = GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS;
     GL_DEPTH_STENCIL_TEXTURE_MODE     = $90EA;
+
     GL_TEXTURE_BUFFER_OFFSET          = $919D;
     GL_TEXTURE_BUFFER_SIZE            = $919E;
     GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT = $919F;
@@ -8512,9 +8532,9 @@ type
   TglGetAttachedShaders = procedure(programObj: GLhandle; MaxCount: GLsizei; var Count: GLint; shaders: PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetAttribLocation = function(programObj: GLhandle; char: PGLChar): glint; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetProgramiv = procedure(programObj: GLhandle; pname: GLenum; params: PGLInt); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  TglGetProgramInfoLog = procedure(programObj: GLHandle; maxLength: glsizei; var length: PGLsizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetProgramInfoLog = procedure(programObj: GLHandle; maxLength: glsizei; length: PGLsizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetShaderiv = procedure(shaderObj: GLhandle; pname: GLenum; params: PGLInt); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  TglGetShaderInfoLog = procedure(shaderObj: GLHandle; maxLength: glsizei; var length: glint; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetShaderInfoLog = procedure(shaderObj: GLHandle; maxLength: glsizei; length: PGLSizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetShaderSource = procedure(shaderObj: GLhandle; maxlength: GLsizei; var length: GLsizei; source: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetUniformLocation = function(programObj: GLhandle; const char: PGLChar): glint; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetUniformfv = procedure(programObj: GLhandle; location: GLint; params: PGLfloat); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
@@ -9455,6 +9475,8 @@ type
 	TglBindSamplers = procedure(first : GLuint; count : GLsizei; const samplers : PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 	TglBindImageTextures = procedure(first : GLuint; count : GLsizei; const textures : PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 	TglBindVertexBuffers = procedure(first : GLuint; count : GLsizei; const buffers : GLuint; const offsets : GLintptr; const strides : PGLsizei); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+
+  TglTexPageCommitmentARB = procedure(target : glenum; level : glint; xoffset : glint; yoffset : glint; zoffset : glint; width : glsizei; height : glsizei; depth : glsizei; resident : glboolean);  {$IFDEF DGL_WIN} stdcall; {$ELSE}cdecl; {$ENDIF}
 
   // END GL 4.4
 
@@ -10753,6 +10775,25 @@ type
   TglProgramUniformHandleui64vNV = procedure(program_ : GLuint; location : GLint; count : GLsizei; const values : PGLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglIsTextureHandleResidentNV = function(handle : GLUint64) : GLboolean; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglIsImageHandleResidentNV = function(handle : GLUint64) : GLboolean; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+
+  // GL_ARB_bindless_texture
+
+  TglGetTextureHandleARB = function (texture : GLuint) : GLUInt64; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetTextureSamplerHandleARB = function (texture : GLuint; sampler : GLuint) : GLUInt64; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMakeTextureHandleResidentARB = procedure (handle : GLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMakeTextureHandleNonResidentARB = procedure (handle : GLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetImageHandleARB = function (texture : GLuint; level : GLint; layered : GLboolean; layer : GLint; format : GLenum) : GLuint64; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMakeImageHandleResidentARB = procedure (handle : GLuint64; access : GLenum); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMakeImageHandleNonResidentARB = procedure (handle : GLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglUniformHandleui64ARB = procedure (location : GLint; value : GLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglUniformHandleui64vARB = procedure (location : GLint; count : GLsizei; const value : PGLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglProgramUniformHandleui64ARB = procedure (program_ : GLuint; location : GLint; value : GLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglProgramUniformHandleui64vARB = procedure (program_ : GLuint; location : GLint; count : GLsizei; const values : PGLuint64); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglIsTextureHandleResidentARB = function (handle : GLuint64) : GLboolean; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglIsImageHandleResidentARB = function (handle : GLuint64) : GLboolean; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglVertexAttribL1ui64ARB = procedure (index : GLuint; x : GLuint64EXT); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglVertexAttribL1ui64vARB = procedure (index : GLuint; const v : PGLuint64EXT); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetVertexAttribLui64vARB = procedure (index : GLuint; pname : GLenum; params : PGLuint64EXT ); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
 	// GL_NV_shader_atomic_float
 
@@ -12705,6 +12746,7 @@ var
     glBindSamplers : TglBindSamplers;
     glBindImageTextures : TglBindImageTextures;
     glBindVertexBuffers : TglBindVertexBuffers;
+    glTexPageCommitmentARB : TglTexPageCommitmentARB;
   // END GL 4.4
 
 
@@ -13979,7 +14021,23 @@ var
   glIsTextureHandleResidentNV : TglIsTextureHandleResidentNV;
   glIsImageHandleResidentNV : TglIsImageHandleResidentNV;
 
-  //
+  // GL_ARB_bindless_texture
+  glGetTextureHandleARB : TglGetTextureHandleARB;
+  glGetTextureSamplerHandleARB : TglGetTextureSamplerHandleARB;
+  glMakeTextureHandleResidentARB : TglMakeTextureHandleResidentARB;
+  glMakeTextureHandleNonResidentARB : TglMakeTextureHandleNonResidentARB;
+  glGetImageHandleARB : TglGetImageHandleARB;
+  glMakeImageHandleResidentARB : TglMakeImageHandleResidentARB;
+  glMakeImageHandleNonResidentARB : TglMakeImageHandleNonResidentARB;
+  glUniformHandleui64ARB : TglUniformHandleui64ARB;
+  glUniformHandleui64vARB : TglUniformHandleui64vARB;
+  glProgramUniformHandleui64ARB : TglProgramUniformHandleui64ARB;
+  glProgramUniformHandleui64vARB : TglProgramUniformHandleui64vARB;
+  glIsTextureHandleResidentARB : TglIsTextureHandleResidentARB;
+  glIsImageHandleResidentARB : TglIsImageHandleResidentARB;
+  glVertexAttribL1ui64ARB : TglVertexAttribL1ui64ARB;
+  glVertexAttribL1ui64vARB : TglVertexAttribL1ui64vARB;
+  glGetVertexAttribLui64vARB : TglGetVertexAttribLui64vARB;
 
   // GL_PGI_misc_hints
   glHintPGI: TglHintPGI;
@@ -14871,8 +14929,6 @@ function dglGetProcAddress(ProcName: PAnsiChar; LibHandle: Pointer = nil {$IFDEF
 begin
   if LibHandle = nil then
     LibHandle := GL_LibHandle;
-
-  Result :=  nil;
 
   {$IFDEF DGL_WIN}
     Result := GetProcAddress(HMODULE(LibHandle), ProcName);
@@ -16394,6 +16450,12 @@ begin
   glGetNamedStringivARB := dglGetProcAddress('glGetNamedStringivARB');
 end;
 
+
+procedure Read_GL_ARB_sparse_texture;
+begin
+  glTexPageCommitmentARB := dglGetProcAddress('glTexPageCommitmentARB');
+end;
+
 procedure Read_GL_ARB_blend_func_extended;
 begin
   glBindFragDataLocationIndexed := dglGetProcAddress('glBindFragDataLocationIndexed');
@@ -16882,6 +16944,26 @@ begin
   glProgramUniformHandleui64vNV := dglGetProcAddress('glProgramUniformHandleui64vNV');
   glIsTextureHandleResidentNV := dglGetProcAddress('glIsTextureHandleResidentNV');
   glIsImageHandleResidentNV := dglGetProcAddress('glIsImageHandleResidentNV');
+end;
+
+procedure Read_GL_ARB_bindless_texture;
+begin
+  glGetTextureHandleARB := dglGetProcAddress('TglGetTextureHandleARB');
+  glGetTextureSamplerHandleARB := dglGetProcAddress('TglGetTextureSamplerHandleARB');
+  glMakeTextureHandleResidentARB := dglGetProcAddress('TglMakeTextureHandleResidentARB');
+  glMakeTextureHandleNonResidentARB := dglGetProcAddress('TglMakeTextureHandleNonResidentARB');
+  glGetImageHandleARB := dglGetProcAddress('TglGetImageHandleARB');
+  glMakeImageHandleResidentARB := dglGetProcAddress('TglMakeImageHandleResidentARB');
+  glMakeImageHandleNonResidentARB := dglGetProcAddress('TglMakeImageHandleNonResidentARB');
+  glUniformHandleui64ARB := dglGetProcAddress('TglUniformHandleui64ARB');
+  glUniformHandleui64vARB := dglGetProcAddress('TglUniformHandleui64vARB');
+  glProgramUniformHandleui64ARB := dglGetProcAddress('TglProgramUniformHandleui64ARB');
+  glProgramUniformHandleui64vARB := dglGetProcAddress('TglProgramUniformHandleui64vARB');
+  glIsTextureHandleResidentARB := dglGetProcAddress('TglIsTextureHandleResidentARB');
+  glIsImageHandleResidentARB := dglGetProcAddress('TglIsImageHandleResidentARB');
+  glVertexAttribL1ui64ARB := dglGetProcAddress('TglVertexAttribL1ui64ARB');
+  glVertexAttribL1ui64vARB := dglGetProcAddress('TglVertexAttribL1ui64vARB');
+  glGetVertexAttribLui64vARB := dglGetProcAddress('TglGetVertexAttribLui64vARB');
 end;
 
 procedure Read_GL_ARB_cl_event;
@@ -18843,6 +18925,7 @@ begin
   Read_GL_ARB_draw_buffers_blend;
   Read_GL_ARB_sample_shading;
   Read_GL_ARB_shading_language_include;
+  Read_GL_ARB_sparse_texture;
   Read_GL_ARB_blend_func_extended;
   Read_GL_ARB_sampler_objects;
   Read_GL_ARB_timer_query;
@@ -19240,6 +19323,7 @@ begin
   GL_ARB_point_parameters := Int_CheckExtension(Buffer, 'GL_ARB_point_parameters');
   GL_ARB_shadow := Int_CheckExtension(Buffer, 'GL_ARB_shadow');
   GL_ARB_shadow_ambient := Int_CheckExtension(Buffer, 'GL_ARB_shadow_ambient');
+  GL_ARB_sparse_texture := Int_CheckExtension(Buffer, 'GL_ARB_sparse_texture');
   GL_ARB_texture_border_clamp := Int_CheckExtension(Buffer, 'GL_ARB_texture_border_clamp');
   GL_ARB_texture_compression := Int_CheckExtension(Buffer, 'GL_ARB_texture_compression');
   GL_ARB_texture_cube_map := Int_CheckExtension(Buffer, 'GL_ARB_texture_cube_map');
@@ -19374,6 +19458,10 @@ begin
     GL_ARB_texture_mirror_clamp_to_edge := Int_CheckExtension(Buffer, 'GL_ARB_texture_mirror_clamp_to_edge');
     GL_ARB_texture_stencil8             := Int_CheckExtension(Buffer, 'GL_ARB_texture_stencil8');
     GL_ARB_vertex_type_10f_11f_11f_rev  := Int_CheckExtension(Buffer, 'GL_ARB_vertex_type_10f_11f_11f_rev');
+
+	  GL_ARB_bindless_texture   					:= Int_CheckExtension(Buffer, 'GL_ARB_bindless_texture');
+		GL_ARB_sparse_texture								:= Int_CheckExtension(Buffer, 'GL_ARB_sparse_texture');
+
   // END GL 4.4
 
   // === ATI/AMD ================================================================
