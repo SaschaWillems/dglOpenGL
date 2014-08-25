@@ -8259,9 +8259,9 @@ type
   TglGetAttachedShaders = procedure(programObj: GLhandle; MaxCount: GLsizei; var Count: GLint; shaders: PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetAttribLocation = function(programObj: GLhandle; char: PGLChar): glint; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetProgramiv = procedure(programObj: GLhandle; pname: GLenum; params: PGLInt); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  TglGetProgramInfoLog = procedure(programObj: GLHandle; maxLength: glsizei; var length: GLint; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetProgramInfoLog = procedure(programObj: GLHandle; maxLength: glsizei; length: PGLSizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetShaderiv = procedure(shaderObj: GLhandle; pname: GLenum; params: PGLInt); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
-  TglGetShaderInfoLog = procedure(shaderObj: GLHandle; maxLength: glsizei; var length: glsizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglGetShaderInfoLog = procedure(shaderObj: GLHandle; maxLength: glsizei; length: PGLSizei; infoLog: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetShaderSource = procedure(shaderObj: GLhandle; maxlength: GLsizei; var length: GLsizei; source: PGLChar); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetUniformLocation = function(programObj: GLhandle; const char: PGLChar): glint; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglGetUniformfv = procedure(programObj: GLhandle; location: GLint; params: PGLfloat); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
