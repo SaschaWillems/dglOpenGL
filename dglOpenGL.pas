@@ -7212,6 +7212,9 @@ const
   WGL_AUX8_ARB = $208F;
   WGL_AUX9_ARB = $2090;
 
+  // WGL_ARB_robustness_application_isolation
+  WGL_CONTEXT_RESET_ISOLATION_BIT_ARB = $00000008;
+
   // WGL_ARB_create_context
   WGL_CONTEXT_DEBUG_BIT_ARB = $00000001;
   WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB = $00000002;
@@ -7499,6 +7502,9 @@ const
   // GLX_ARB_multisample
   GLX_SAMPLE_BUFFERS_ARB = 100000;
   GLX_SAMPLES_ARB = 100001;
+
+  // GLX_ARB_robustness_application_isolation
+  GLX_CONTEXT_RESET_ISOLATION_BIT_ARB = $00000008;
 
   // GLX_ARB_fbconfig_float
   GLX_RGBA_FLOAT_TYPE_ARB = $20B9;
