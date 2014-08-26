@@ -2,7 +2,6 @@
 
        OpenGL 4.5 - Headertranslation
        Version 4.5
-       Date : 2014/08/23
 
        Supported environments and targets :
         - (Win32) Delphi 4 and up
@@ -306,13 +305,16 @@ type
   p_cl_context = ^_cl_context;
   p_cl_event = ^_cl_event;
 
+  // GL_ARB_compute_variable_group_size
+  TglDispatchComputeGroupSizeARB = procedure (num_groups_x : GLuint; num_groups_y : GLuint; num_groups_z : GLuint; group_size_x : GLuint; group_size_y : GLuint; group_size_z : GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+
   // GL_ARB_debug_output
   TglDebugProcARB = procedure (source: GLenum; type_: GLenum; id: GLuint; severity: GLenum; length: GLsizei; const message_: PGLchar; userParam: PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
   // GL_AMD_debug_output
   TglDebugProcAMD = procedure (id: GLuint; category: GLenum; severity: GLenum; length: GLsizei; const message_: PGLchar; userParam: PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
-	// (4.3) GL_KHR_debug
+  // GL_KHR_debug (4.3)
   TglDebugProc = procedure(source : GLEnum; type_ : GLEnum; id : GLUInt; severity : GLUInt; length : GLsizei; const message_ : PGLCHar; userParam : PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
   // GL_NV_vdpau_interop
@@ -667,6 +669,7 @@ var
   GL_ARB_texture_barrier,
 
   GL_ARB_cl_event,
+  GL_ARB_compute_variable_group_size,
   GL_ARB_debug_output,
   GL_ARB_robustness,
   GL_ARB_shader_stencil_export,
@@ -3422,6 +3425,12 @@ const
   WGL_TYPE_RGBA_FLOAT_ARB = $21A0;
   GLX_RGBA_FLOAT_TYPE = $20B9;
   GLX_RGBA_FLOAT_BIT = $00000004;
+
+  // GL_ARB_compute_variable_group_size
+  GL_MAX_COMPUTE_VARIABLE_GROUP_INVOCATIONS_ARB = $9344;
+  GL_MAX_COMPUTE_FIXED_GROUP_INVOCATIONS_ARB = $90EB;
+  GL_MAX_COMPUTE_VARIABLE_GROUP_SIZE_ARB = $9345;
+  GL_MAX_COMPUTE_FIXED_GROUP_SIZE_ARB = $91BF;
 
   // GL_ARB_half_float_pixel
   GL_HALF_FLOAT_ARB = $140B;
@@ -9126,7 +9135,7 @@ type
   TglClearNamedBufferDataEXT = procedure(buffer : GLuint; internalformat : GLenum; format : GLEnum; type_ : GLEnum; const data : Pointer); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglClearNamedBufferSubDataEXT = procedure(buffer : GLuint; internalformat : GLenum; format : GLenum; type_ : GLenum; offset : GLsizeiptr; size : GLsizeiptr; const data : Pointer); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
-  // GL_ARB_compute_shader 1
+  // GL_ARB_compute_shader
   TglDispatchCompute = procedure(num_groups_x : GLuint; num_groups_y : GLuint; num_groups_z : GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglDispatchComputeIndirect = procedure(indirect : GLintptr); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
@@ -12742,6 +12751,9 @@ var
   glDebugMessageCallbackARB: TglDebugMessageCallbackARB;
   glGetDebugMessageLogARB: TglGetDebugMessageLogARB;
 
+  // GL_ARB_compute_variable_group_size
+  glDispatchComputeGroupSizeARB : TglDispatchComputeGroupSizeARB;
+
   // GL_ARB_robustness
   glGetGraphicsResetStatusARB: TglGetGraphicsResetStatusARB;
   glGetnMapdvARB: TglGetnMapdvARB;
@@ -14672,6 +14684,7 @@ procedure Read_GL_4_5;
 
 //
 procedure Read_GL_ARB_cl_event;
+procedure Read_GL_ARB_compute_variable_group_size;
 procedure Read_GL_ARB_debug_output;
 procedure Read_GL_ARB_robustness;
 procedure Read_GL_ATI_draw_buffers;
@@ -17089,6 +17102,11 @@ begin
   glCreateSyncFromCLeventARB := dglGetProcAddress('glCreateSyncFromCLeventARB');
 end;
 
+procedure Read_GL_ARB_compute_variable_group_size;
+begin
+  glDispatchComputeGroupSizeARB := dglGetProcAddress('glDispatchComputeGroupSizeARB');
+end;
+
 procedure Read_GL_ARB_debug_output;
 begin
   glDebugMessageControlARB := dglGetProcAddress('glDebugMessageControlARB');
@@ -19061,6 +19079,7 @@ begin
   Read_GL_ARB_vertex_attrib_64bit;
   Read_GL_ARB_viewport_array;
   Read_GL_ARB_cl_event;
+  Read_GL_ARB_compute_variable_group_size;
   Read_GL_ARB_debug_output;
   Read_GL_ARB_robustness;
   //
@@ -19528,6 +19547,7 @@ begin
   GL_ARB_shader_precision := Int_CheckExtension(Buffer, 'GL_ARB_shader_precision');
   GL_ARB_vertex_attrib_64bit := Int_CheckExtension(Buffer, 'GL_ARB_vertex_attrib_64bit');
   GL_ARB_viewport_array := Int_CheckExtension(Buffer, 'GL_ARB_viewport_array');
+  GL_ARB_compute_variable_group_size := Int_CheckExtension(Buffer, 'GL_ARB_compute_variable_group_size');
 
   // GL 4.2
   GL_ARB_base_instance := Int_CheckExtension(Buffer, 'GL_ARB_base_instance');
