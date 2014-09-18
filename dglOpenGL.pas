@@ -11137,6 +11137,8 @@ type
   // GLX_EXT_texture_from_pixmap
   TglXBindTexImageEXT = procedure(dpy: PDisplay; drawable: GLXDrawable; buffer: GLint; const attrib_list: PGLint); cdecl;
   TglXReleaseTexImageEXT = procedure(dpy: PDisplay; drawable: GLXDrawable; buffer: GLint); cdecl;
+
+  TglXSwapIntervalEXT = procedure (dpy : PDisplay; drawable : GLXDrawable; interval : GLint); cdecl;
 {$ENDIF}
 
   // GL utility functions and procedures
@@ -14500,6 +14502,8 @@ var
   // GLX_EXT_texture_from_pixmap
   glXBindTexImageEXT: TglXBindTexImageEXT;
   glXReleaseTexImageEXT: TglXReleaseTexImageEXT;
+
+  glXSwapIntervalEXT : TglXSwapIntervalEXT;
 {$ENDIF}
 
   // GL utility functions and procedures
@@ -15136,6 +15140,8 @@ begin
       // GLX_EXT_texture_from_pixmap
       glXBindTexImageEXT := dglGetProcAddress('glXBindTexImageEXT');
       glXReleaseTexImageEXT := dglGetProcAddress('glXReleaseTexImageEXT');
+
+      glXSwapIntervalEXT := dglGetProcAddress('glXSwapIntervalEXT');
     {$ENDIF}
 
     Result := True;
