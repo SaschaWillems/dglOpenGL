@@ -19400,7 +19400,7 @@ begin
       GL_VERSION_4_3 := True;
     if MinorVersion >= 4 then
       GL_VERSION_4_4 := True;
-    if MinorVersion >= 4 then
+    if MinorVersion >= 5 then
       GL_VERSION_4_5:= True;
   end;
 
