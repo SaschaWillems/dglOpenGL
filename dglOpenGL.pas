@@ -1,10 +1,10 @@
 { ============================================================================
 
        OpenGL 4.5 - Headertranslation
-       Version 4.5
+       Version 4.5a
 
        Supported environments and targets :
-        - (Win32) Delphi 4 and up
+        - (Win32) Delphi 6 and up
         - (Win32, Win64) Delphi XE2
         - (Win32, Win64, Linux, MacOSX) FreePascal (1.9.3 and up)
 
@@ -134,6 +134,17 @@ interface
   {$A4}
 {$ENDIF}
 
+// 64 BIT architecture
+// Free pascal
+{$IFDEF CPU64}
+  {$DEFINE DGL_64BIT}
+{$ENDIF}
+// Delphi
+{$IFDEF WIN64}
+  {$DEFINE DGL_64BIT}
+{$ENDIF}
+
+
 // generell options
 {$H+,O+,X+}
 
@@ -161,18 +172,11 @@ interface
 {$ENDIF}
 {$ENDIF}
 
-
-// detecting 64 Bit CPU
-{$IFDEF CPU64}          // fpc on 64 bit cpus
-  {$DEFINE DGL_64BIT}   // dgl define for 64 bit
-{$ENDIF}
-
-
-
 uses
   {$IFDEF FPC}{$IFDEF DARWIN}dynlibs,{$ENDIF}{$ENDIF}  // LoadLibrary functions
   SysUtils
   {$IFDEF DGL_WIN}, Windows{$ENDIF}
+  {$IFDEF DGL_64BIT} ,math {$ENDIF}
   {$IFDEF DGL_LINUX}, X, XLib, XUtil{$ENDIF}
   ;
 
@@ -376,6 +380,7 @@ type
   TGLVector3f = TGLVectorf3;
 
   // Datatypes corresponding to OpenGL12.pas for easy porting
+  TVector3f = TGLVectorf3;
   TVector3d = TGLVectord3;
 
   TVector4i = TGLVectori4;
@@ -1026,8 +1031,8 @@ const
   GL_STENCIL_BUFFER_BIT = $00000400;
   GL_COLOR_BUFFER_BIT = $00004000;
   { Boolean }
-  GL_TRUE = 1;
-  GL_FALSE = 0;
+  GL_TRUE: ByteBool = True;
+  GL_FALSE: ByteBool = False;
   { BeginMode }
   GL_POINTS = $0000;
   GL_LINES = $0001;
@@ -7636,8 +7641,8 @@ const
   GLU_INCOMPATIBLE_GL_VERSION = 100903;
   GLU_VERSION = 100800;
   GLU_EXTENSIONS = 100801;
-  GLU_TRUE = GL_TRUE;
-  GLU_FALSE = GL_FALSE;
+  GLU_TRUE: ByteBool = True;
+  GLU_FALSE: ByteBool = False;
   GLU_SMOOTH = 100000;
   GLU_FLAT = 100001;
   GLU_NONE = 100002;
@@ -20320,6 +20325,9 @@ initialization
 
 {$IFDEF CPU386}
   Set8087CW($133F);
+  {$IFDEF DGL_64BIT}
+  SetExceptionMask([exInvalidOp, exDenormalized, exZeroDivide,exOverflow, exUnderflow, exPrecision]);
+  {$ENDIF}
 {$ENDIF}
 
 finalization
