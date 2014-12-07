@@ -181,9 +181,11 @@ uses
   ;
 
 type
-  // Needed for Delphi 6 and less (defined in system.pas for Delphi 7)
-  PPointer = ^Pointer;
-  PCardinal = ^Cardinal;
+  {$IFDEF DELPHI6_AND_DOWN}
+    // Delphi 6 compatibility
+    PPointer = ^Pointer;
+    PCardinal = ^Cardinal;
+  {$ENDIF}
 
   GLenum = Cardinal;
   GLboolean = BYTEBOOL;
@@ -20325,10 +20327,11 @@ initialization
 
 {$IFDEF CPU386}
   Set8087CW($133F);
-  {$IFDEF DGL_64BIT}
-  SetExceptionMask([exInvalidOp, exDenormalized, exZeroDivide,exOverflow, exUnderflow, exPrecision]);
-  {$ENDIF}
 {$ENDIF}
+{$IFDEF DGL_64BIT}
+  SetExceptionMask([exInvalidOp, exDenormalized, exZeroDivide,exOverflow, exUnderflow, exPrecision]);
+{$ENDIF}
+
 
 finalization
 
