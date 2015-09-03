@@ -489,7 +489,7 @@ Added a function named RaiseLastOSError including a comment
 - Changed 64-Bit detection for FPC
 - Added TVector3f for backwards compatibility
 
-# Version 4.6a
+# Version 4.5b
 - Added missing constant GL_PRIMITIVE_RESTART_FOR_PATCHES_SUPPORTED (SW)
 - Added missing constant GL_TEXTURE_BUFFER_BINDING (SW)
 - Added missing extension GL_NV_conservative_raster (SW)
