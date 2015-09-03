@@ -1,7 +1,6 @@
 { ============================================================================
 
        OpenGL 4.5 - Headertranslation
-       Version 4.5a
 
        Supported environments and targets :
         - (Win32) Delphi 6 and up
@@ -4420,6 +4419,8 @@ const
 
   // GL 4.4
   GL_MAX_VERTEX_ATTRIB_STRIDE         = $82E5;
+  GL_PRIMITIVE_RESTART_FOR_PATCHES_SUPPORTED = $8221;
+  GL_TEXTURE_BUFFER_BINDING = $8C2A;
   GL_MAP_PERSISTENT_BIT               = $0040;
   GL_MAP_COHERENT_BIT                 = $0080;
   GL_DYNAMIC_STORAGE_BIT              = $0100;
