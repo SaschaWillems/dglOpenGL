@@ -395,9 +395,11 @@ type
 
 
 {$IFDEF FPC}
-  TRect = packed record
-    Left, Top, Right, Bottom: Longint;
-  end;
+  {$IF FPC_FULLVERSION < 20602}
+    TRect = packed record
+      Left, Top, Right, Bottom: Longint;
+    end;
+  {$ifend}
 {$ENDIF}
 
 

@@ -1,9 +1,9 @@
 # Delphi / Pascal OpenGL header translation
 
 - OpenGL version 4.5
-- Header revision 4.5b
+- Header revision 4.5c
 - Copyright (C) DGL-OpenGL-Portteam -  All Rights Reserved
-- Last update : 2015-09-03
+- Last update : 2015-11-23
 - Last updater : Sascha Willems
 
 # Supported environments and targets
@@ -31,8 +31,8 @@
 > You may retrieve the latest version of this file at the Delphi OpenGL
 > Community home page, located at http://www.delphigl.com/
 >
->  This Source Code Form is subject to the terms of the Mozilla Public License, 
->  v. 2.0. If a copy of the MPL was not distributed with this file, 
+>  This Source Code Form is subject to the terms of the Mozilla Public License,
+>  v. 2.0. If a copy of the MPL was not distributed with this file,
 >  You can obtain one at http://mozilla.org/MPL/2.0/.
 >
 > Software distributed under the License is distributed on an
@@ -510,3 +510,6 @@ Added a function named RaiseLastOSError including a comment
   - Added GL_OVR_multiview (SW)
   - Added GL_OVR_multiview2 (SW)
   - Added GL_INTEL_framebuffer_CMAA (SW)
+
+# Version 4.5c
+- Conditional define for TRect only for Free Pascal version < 20602 (SW)
