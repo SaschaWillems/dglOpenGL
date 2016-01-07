@@ -1,15 +1,15 @@
 # Delphi / Pascal OpenGL header translation
 
 - OpenGL version 4.5
-- Header revision 4.5c
+- Header revision 4.5d
 - Copyright (C) DGL-OpenGL-Portteam -  All Rights Reserved
-- Last update : 2015-11-23
+- Last update : 2016-01-07
 - Last updater : Sascha Willems
 
 # Supported environments and targets
 - (Win32) Delphi 4 and up
 - (Win32, Win64) Delphi XE2
-- (Win32, Win64, Linux, MacOSX) FreePascal (1.9.3 and up)
+- (Win32, Win64, Linux, MacOSX) FreePascal (2.2.6 and up)
 
 # Obtained through
 - GitHub repository - https://github.com/SaschaWillems/dglOpenGL
@@ -513,3 +513,6 @@ Added a function named RaiseLastOSError including a comment
 
 # Version 4.5c
 - Conditional define for TRect only for Free Pascal version < 20602 (SW)
+
+# Version 4.5d
+- Removed conditional define for TRect (FPC) due to error Delphi E2026

@@ -392,17 +392,6 @@ type
   PGLMatrixd4 = ^TGLMatrixd4;
   PVector4i = ^TVector4i;
 
-
-
-{$IFDEF FPC}
-  {$IF FPC_FULLVERSION < 20602}
-    TRect = packed record
-      Left, Top, Right, Bottom: Longint;
-    end;
-  {$ifend}
-{$ENDIF}
-
-
   PGPU_DEVICE = ^GPU_DEVICE;
   GPU_DEVICE = record
     cb: DWORD;
