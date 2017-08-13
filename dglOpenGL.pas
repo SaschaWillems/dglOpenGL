@@ -32,8 +32,8 @@
   You may retrieve the latest version of this file at the Delphi OpenGL
   Community home page, located at http://www.delphigl.com/
 
-  This Source Code Form is subject to the terms of the Mozilla Public License, 
-  v. 2.0. If a copy of the MPL was not distributed with this file, 
+  This Source Code Form is subject to the terms of the Mozilla Public License,
+  v. 2.0. If a copy of the MPL was not distributed with this file,
   You can obtain one at http://mozilla.org/MPL/2.0/.
 
   Software distributed under the License is distributed on an
@@ -391,7 +391,7 @@ type
 
   PGLMatrixd4 = ^TGLMatrixd4;
   PVector4i = ^TVector4i;
-
+{$IFDEF DGL_WIN}
   PGPU_DEVICE = ^GPU_DEVICE;
   GPU_DEVICE = record
     cb: DWORD;
@@ -400,7 +400,7 @@ type
     Flags: DWORD;
     rcVirtualScreen: TRect;
   end;
-
+{$ENDIF}
 
 type
 {$IFDEF FPC}
@@ -14767,8 +14767,11 @@ const
   GLU_LIBNAME = 'GLU32.dll';
 {$ELSE}
   {$IFDEF darwin}
-    OPENGL_LIBNAME = 'libGL.dylib';
-    GLU_LIBNAME = 'libGLU.dylib';
+    //provide explicit paths for macOS libraries: https://gist.github.com/frostney/1044116
+    //OPENGL_LIBNAME = 'libGL.dylib';
+    //GLU_LIBNAME = 'libGLU.dylib';
+    OPENGL_LIBNAME = '/System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib';
+    GLU_LIBNAME = '/System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib';
   {$ELSE}
     OPENGL_LIBNAME = 'libGL.so.1';
     GLU_LIBNAME = 'libGLU.so.1';
@@ -20623,9 +20626,9 @@ end;
 
 initialization
 
-{$IFDEF CPU386}
+{$IFDEF CPU386}{$IFNDEF DARWIN}
   Set8087CW($133F);
-{$ENDIF}
+{$ENDIF}{$ENDIF}
 {$IFDEF DGL_64BIT}
   SetExceptionMask([exInvalidOp, exDenormalized, exZeroDivide,exOverflow, exUnderflow, exPrecision]);
 {$ENDIF}
