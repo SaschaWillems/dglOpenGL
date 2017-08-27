@@ -1,6 +1,6 @@
 { ============================================================================
 
-       OpenGL 4.5 - Headertranslation
+       OpenGL 4.6 - Headertranslation
 
        Supported environments and targets :
         - (Win32) Delphi 6 and up
@@ -40,12 +40,6 @@
   "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
   implied. See the License for the specific language governing
   rights and limitations under the License.
-
-==============================================================================
-
-
-  History : see readme.md
-
 
 ============================================================================== }
 
@@ -476,6 +470,7 @@ var
   GL_VERSION_4_3,
   GL_VERSION_4_4,
   GL_VERSION_4_5,
+  GL_VERSION_4_6,
   GLU_VERSION_1_1,
   GLU_VERSION_1_2,
   GLU_VERSION_1_3,
@@ -535,13 +530,11 @@ var
   GL_ARB_half_float_pixel,
   GL_ARB_texture_float,
   GL_ARB_pixel_buffer_object,
-  GL_ARB_polygon_offset_clamp,
   GL_ARB_depth_buffer_float,
   GL_ARB_draw_instanced,
   GL_ARB_framebuffer_object,
   GL_ARB_framebuffer_sRGB,
   GL_ARB_geometry_shader4,
-  GL_ARB_gl_spirv,
   GL_ARB_half_float_vertex,
   GL_ARB_instanced_arrays,
   GL_ARB_map_buffer_range,
@@ -567,9 +560,7 @@ var
   GL_ARB_sample_locations,
   GL_ARB_sparse_texture2,
   GL_ARB_sparse_texture_clamp,
-  GL_ARB_spirv_extensions,
   GL_ARB_texture_cube_map_array,
-  GL_ARB_texture_filter_anisotropic,
   GL_ARB_texture_gather,
   GL_ARB_texture_query_lod,
   GL_ARB_shading_language_include,
@@ -599,12 +590,10 @@ var
   GL_ARB_ES3_2_compatibility,
   GL_ARB_get_program_binary,
   GL_ARB_separate_shader_objects,
-  GL_ARB_shader_atomic_counter_ops,
   GL_ARB_shader_precision,
   GL_ARB_shader_ballot,
   GL_ARB_vertex_attrib_64bit,
   GL_ARB_viewport_array,
-  GL_KHR_no_error,
 
   // GL 4.2
   GL_ARB_base_instance,
@@ -680,6 +669,19 @@ var
   GL_KHR_robust_buffer_access_behavior,
   GL_ARB_shader_texture_image_samples,
   GL_ARB_texture_barrier,
+
+  // GL 4.6
+  GL_ARB_indirect_parameters,
+  GL_ARB_pipeline_statistics_query,
+  GL_ARB_polygon_offset_clamp,
+  GL_KHR_no_error,
+  GL_ARB_shader_atomic_counter_ops,
+  GL_ARB_shader_draw_parameters,
+  GL_ARB_shader_group_vote,
+  GL_ARB_gl_spirv,
+  GL_ARB_spirv_extensions,
+  GL_ARB_texture_filter_anisotropic,
+  GL_ARB_transform_feedback_overflow_query,
 
   GL_ARB_cl_event,
   GL_ARB_compute_variable_group_size,
@@ -4513,6 +4515,30 @@ const
   GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT = $00000004;
   GL_CONTEXT_RELEASE_BEHAVIOR       = $82FB;
   GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH = $82FC;
+
+  // 4.6
+  GL_SHADER_BINARY_FORMAT_SPIR_V = $9551;
+  GL_SPIR_V_BINARY = $9552;
+  GL_PARAMETER_BUFFER = $80EE;
+  GL_PARAMETER_BUFFER_BINDING = $80EF;
+  GL_CONTEXT_FLAG_NO_ERROR_BIT = $00000008;
+  GL_VERTICES_SUBMITTED = $82EE;
+  GL_PRIMITIVES_SUBMITTED = $82EF;
+  GL_VERTEX_SHADER_INVOCATIONS = $82F0;
+  GL_TESS_CONTROL_SHADER_PATCHES = $82F1;
+  GL_TESS_EVALUATION_SHADER_INVOCATIONS = $82F2;
+  GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED = $82F3;
+  GL_FRAGMENT_SHADER_INVOCATIONS = $82F4;
+  GL_COMPUTE_SHADER_INVOCATIONS = $82F5;
+  GL_CLIPPING_INPUT_PRIMITIVES = $82F6;
+  GL_CLIPPING_OUTPUT_PRIMITIVES = $82F7;
+  GL_POLYGON_OFFSET_CLAMP = $8E1B;
+  GL_SPIR_V_EXTENSIONS = $9553;
+  GL_NUM_SPIR_V_EXTENSIONS = $9554;
+  GL_TEXTURE_MAX_ANISOTROPY = $84FE;
+  GL_MAX_TEXTURE_MAX_ANISOTROPY = $84FF;
+  GL_TRANSFORM_FEEDBACK_OVERFLOW = $82EC;
+  GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW = $82ED;  
 
   // GL_ATI_draw_buffers
   GL_MAX_DRAW_BUFFERS_ATI = $8824;
@@ -9470,6 +9496,12 @@ type
   TglGetnMinmax = procedure (target : GLenum; reset : GLboolean; format : GLenum; _type : GLenum; bufSize : GLsizei; values : PGLvoid); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglTextureBarrier = procedure; {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
+  // GL 4.6
+  TglSpecializeShader = procedure(shader : GLuint; const pEntryPoint : PGLchar; numSpecializationConstants : GLuint; const pConstantIndex : PGLuint; const pConstantValue : PGLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMultiDrawArraysIndirectCount = procedure(mode : GLenum; const indirect : PGLVoid; drawcount : GLintptr; maxdrawcount : GLsizei; stride : GLsizei); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglMultiDrawElementsIndirectCount = procedure(mode : GLenum; _type : GLenum; const indirect : PGLvoid; drawcount : GLintptr; maxdrawcount : GLsizei; stride : GLsizei); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+  TglPolygonOffsetClamp = procedure(factor : GLfloat; units : GLfloat; clamp : GLfloat); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+
   // GL_ARB_sparse_buffer
   TglBufferPageCommitmentARB = procedure (target : GLenum; offset : GLintptr; size : GLsizei; commit : GLboolean); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglNamedBufferPageCommitmentEXT = procedure (buffer : GLuint; offset : GLintptr; size : GLsizei; commit : GLboolean); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
@@ -12929,6 +12961,12 @@ var
   glGetnMinmax : TglGetnMinmax;
   glTextureBarrier : TglTextureBarrier;
 
+  // 4.6
+  glSpecializeShader : TglSpecializeShader;
+  glMultiDrawArraysIndirectCount : TglMultiDrawArraysIndirectCount;
+  glMultiDrawElementsIndirectCount : TglMultiDrawElementsIndirectCount;
+  glPolygonOffsetClamp : TglPolygonOffsetClamp;
+  
   // GL_ARB_sparse_buffer
   glBufferPageCommitmentARB : TglBufferPageCommitmentARB;
   glNamedBufferPageCommitmentEXT : TglNamedBufferPageCommitmentEXT;
@@ -14900,6 +14938,7 @@ procedure Read_GL_ARB_vertex_attrib_binding;
 
 procedure Read_GL_4_4;
 procedure Read_GL_4_5;
+procedure Read_GL_4_6;
 
 //
 procedure Read_GL_ARB_cl_event;
@@ -16208,6 +16247,7 @@ begin
 
   Read_GL_4_4;
   Read_GL_4_5;
+  Read_GL_4_6;
 end;
 
 procedure Read_GL_3DFX_tbuffer;
@@ -17286,6 +17326,14 @@ begin
   glGetnHistogram:= dglGetProcAddress('glGetnHistogram');
   glGetnMinmax:= dglGetProcAddress('glGetnMinmax');
   glTextureBarrier:= dglGetProcAddress('glTextureBarrier');
+end;
+
+procedure Read_GL_4_6;
+begin
+  glSpecializeShader := dglGetProcAddress('glSpecializeShader'); 
+  glMultiDrawArraysIndirectCount := dglGetProcAddress('glMultiDrawArraysIndirectCount');
+  glMultiDrawElementsIndirectCount := dglGetProcAddress('glMultiDrawElementsIndirectCount');
+  glPolygonOffsetClamp := dglGetProcAddress('glPolygonOffsetClamp');
 end;
 
 procedure Read_GL_NV_path_rendering;
@@ -19332,14 +19380,7 @@ procedure ReadExtensions;
 begin
   ReadOpenGLCore;
 
-  Read_GL_3DFX_tbuffer;
-  Read_GL_APPLE_element_array;
-  Read_GL_APPLE_fence;
-  Read_GL_APPLE_vertex_array_object;
-  Read_GL_APPLE_vertex_array_range;
-  Read_GL_APPLE_texture_range;
-  Read_GL_APPLE_vertex_program_evaluators;
-  Read_GL_APPLE_object_purgeable;
+  // ARB
   Read_GL_ARB_matrix_palette;
   Read_GL_ARB_multitexture;
   Read_GL_ARB_point_parameters;
@@ -19392,7 +19433,18 @@ begin
   Read_GL_ARB_debug_output;
   Read_GL_ARB_robustness;
   Read_GL_ARB_ES2_compatibility;
-  //
+  Read_GL_ARB_ES3_2_compatibility;
+  Read_GL_ARB_parallel_shader_compile;  
+
+  // Vendor
+  Read_GL_3DFX_tbuffer;
+  Read_GL_APPLE_element_array;
+  Read_GL_APPLE_fence;
+  Read_GL_APPLE_vertex_array_object;
+  Read_GL_APPLE_vertex_array_range;
+  Read_GL_APPLE_texture_range;
+  Read_GL_APPLE_vertex_program_evaluators;
+  Read_GL_APPLE_object_purgeable; 
   Read_GL_ATI_draw_buffers;
   Read_GL_ATI_element_array;
   Read_GL_ATI_envmap_bumpmap;
@@ -19532,10 +19584,6 @@ begin
   Read_GL_SUN_mesh_array;
   Read_GL_SUN_triangle_list;
   Read_GL_SUN_vertex;
-
-  Read_GL_ARB_ES3_2_compatibility;
-  Read_GL_ARB_parallel_shader_compile;
-
 {$IFDEF DGL_WIN}
   Read_WGL_ARB_buffer_region;
   Read_WGL_ARB_extensions_string;
@@ -19655,6 +19703,7 @@ begin
   GL_VERSION_4_3 := False;
   GL_VERSION_4_4 := False;
   GL_VERSION_4_5 := False;
+  GL_VERSION_4_6 := False;
 
   if MajorVersion = 1 then
   begin
@@ -19712,7 +19761,9 @@ begin
     if MinorVersion >= 4 then
       GL_VERSION_4_4 := True;
     if MinorVersion >= 5 then
-      GL_VERSION_4_5:= True;
+      GL_VERSION_4_5 := True;
+    if MinorVersion >= 6 then
+      GL_VERSION_4_6 := True;
   end;
 
   // GLU
@@ -19947,6 +19998,19 @@ begin
   GL_KHR_robustness := Int_CheckExtension(Buffer, 'GL_KHR_robustness');
   GL_ARB_shader_texture_image_samples := Int_CheckExtension(Buffer, 'GL_ARB_shader_texture_image_samples');
   GL_ARB_texture_barrier := Int_CheckExtension(Buffer, 'GL_ARB_texture_barrier');
+
+  // GL 4.6
+  GL_ARB_indirect_parameters := Int_CheckExtension(Buffer, 'GL_ARB_indirect_parameters');
+  GL_ARB_pipeline_statistics_query := Int_CheckExtension(Buffer, 'GL_ARB_pipeline_statistics_query');
+  GL_ARB_polygon_offset_clamp := Int_CheckExtension(Buffer, 'GL_ARB_polygon_offset_clamp');
+  GL_KHR_no_error := Int_CheckExtension(Buffer, 'GL_KHR_no_error');
+  GL_ARB_shader_atomic_counter_ops := Int_CheckExtension(Buffer, 'GL_ARB_shader_atomic_counter_ops');
+  GL_ARB_shader_draw_parameters := Int_CheckExtension(Buffer, 'GL_ARB_shader_draw_parameters');
+  GL_ARB_shader_group_vote := Int_CheckExtension(Buffer, 'GL_ARB_shader_group_vote');
+  GL_ARB_gl_spirv := Int_CheckExtension(Buffer, 'GL_ARB_gl_spirv');
+  GL_ARB_spirv_extensions := Int_CheckExtension(Buffer, 'GL_ARB_spirv_extensions');
+  GL_ARB_texture_filter_anisotropic := Int_CheckExtension(Buffer, 'GL_ARB_texture_filter_anisotropic');
+  GL_ARB_transform_feedback_overflow_query := Int_CheckExtension(Buffer, 'GL_ARB_transform_feedback_overflow_query');
 
   // ATI/AMD
   GL_ATI_draw_buffers := Int_CheckExtension(Buffer, 'GL_ATI_draw_buffers');
