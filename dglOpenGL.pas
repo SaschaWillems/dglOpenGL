@@ -535,6 +535,7 @@ var
   GL_ARB_half_float_pixel,
   GL_ARB_texture_float,
   GL_ARB_pixel_buffer_object,
+  GL_ARB_polygon_offset_clamp,
   GL_ARB_depth_buffer_float,
   GL_ARB_draw_instanced,
   GL_ARB_framebuffer_object,
@@ -566,7 +567,9 @@ var
   GL_ARB_sample_locations,
   GL_ARB_sparse_texture2,
   GL_ARB_sparse_texture_clamp,
+  GL_ARB_spirv_extensions,
   GL_ARB_texture_cube_map_array,
+  GL_ARB_texture_filter_anisotropic,
   GL_ARB_texture_gather,
   GL_ARB_texture_query_lod,
   GL_ARB_shading_language_include,
@@ -14834,6 +14837,7 @@ procedure Read_GL_ARB_occlusion_query;
 procedure Read_GL_ARB_draw_instanced;
 procedure Read_GL_ARB_framebuffer_object;
 procedure Read_GL_ARB_geometry_shader4;
+procedure Read_GL_ARB_gl_spirv;
 procedure Read_GL_ARB_instanced_arrays;
 procedure Read_GL_ARB_map_buffer_range;
 procedure Read_GL_ARB_texture_buffer_object;
@@ -19779,6 +19783,7 @@ begin
   GL_ARB_sparse_texture := Int_CheckExtension(Buffer, 'GL_ARB_sparse_texture');
   GL_ARB_sparse_texture2 := Int_CheckExtension(Buffer, 'GL_ARB_sparse_texture2');
   GL_ARB_sparse_texture_clamp := Int_CheckExtension(Buffer, 'GL_ARB_sparse_texture_clamp');
+  GL_ARB_spirv_extensions := Int_CheckExtension(Buffer, 'GL_ARB_spirv_extensions');
   GL_ARB_texture_border_clamp := Int_CheckExtension(Buffer, 'GL_ARB_texture_border_clamp');
   GL_ARB_texture_compression := Int_CheckExtension(Buffer, 'GL_ARB_texture_compression');
   GL_ARB_texture_cube_map := Int_CheckExtension(Buffer, 'GL_ARB_texture_cube_map');
@@ -19808,6 +19813,7 @@ begin
   GL_ARB_half_float_pixel := Int_CheckExtension(Buffer, 'GL_ARB_half_float_pixel');
   GL_ARB_texture_float := Int_CheckExtension(Buffer, 'GL_ARB_texture_float');
   GL_ARB_pixel_buffer_object := Int_CheckExtension(Buffer, 'GL_ARB_pixel_buffer_object');
+  GL_ARB_polygon_offset_clamp := Int_CheckExtension(Buffer, 'GL_ARB_polygon_offset_clamp');
   GL_ARB_depth_buffer_float := Int_CheckExtension(Buffer, 'GL_ARB_depth_buffer_float');
   GL_ARB_draw_instanced := Int_CheckExtension(Buffer, 'GL_ARB_draw_instanced');
   GL_ARB_framebuffer_object := Int_CheckExtension(Buffer, 'GL_ARB_framebuffer_object');
@@ -19837,6 +19843,7 @@ begin
   GL_ARB_draw_buffers_blend := Int_CheckExtension(Buffer, 'GL_ARB_draw_buffers_blend');
   GL_ARB_sample_shading := Int_CheckExtension(Buffer, 'GL_ARB_sample_shading');
   GL_ARB_texture_cube_map_array := Int_CheckExtension(Buffer, 'GL_ARB_texture_cube_map_array');
+  GL_ARB_texture_filter_anisotropic := Int_CheckExtension(Buffer, 'GL_ARB_texture_filter_anisotropic');
   GL_ARB_texture_gather := Int_CheckExtension(Buffer, 'GL_ARB_texture_gather');
   GL_ARB_texture_query_lod := Int_CheckExtension(Buffer, 'GL_ARB_texture_query_lod');
   GL_ARB_shading_language_include := Int_CheckExtension(Buffer, 'GL_ARB_shading_language_include');
