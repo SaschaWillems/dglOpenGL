@@ -540,6 +540,7 @@ var
   GL_ARB_framebuffer_object,
   GL_ARB_framebuffer_sRGB,
   GL_ARB_geometry_shader4,
+  GL_ARB_gl_spirv,
   GL_ARB_half_float_vertex,
   GL_ARB_instanced_arrays,
   GL_ARB_map_buffer_range,
@@ -3597,6 +3598,10 @@ const
   GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS_ARB = $8DE1;
   { reuse GL_MAX_VARYING_COMPONENTS }
   { reuse GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER }
+
+  // GL_ARB_gl_spirv
+  GL_SHADER_BINARY_FORMAT_SPIR_V_ARB = $9551;
+  GL_SPIR_V_BINARY_ARB = $9552;
 
   // GL_ARB_half_float_vertex
   GL_HALF_FLOAT = $140B;
@@ -8869,6 +8874,9 @@ type
   TglFramebufferTextureLayerARB = procedure(target: GLenum; attachment: GLenum; texture: GLuint; level: GLint; layer: GLint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
   TglFramebufferTextureFaceARB = procedure(target: GLenum; attachment: GLenum; texture: GLuint; level: GLint; face: GLenum); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
+  // GL_ARB_gl_spirv
+  TglSpecializeShaderARB = procedure(shader : GLuint; const pEntryPoint : PGLChar; numSpecializationConstants : GLuint; const pConstantIndex : PGLUint; const pConstantValue : PGLUint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
+
   // GL_ARB_instanced_arrays
   TglVertexAttribDivisorARB = procedure(index_: GLuint; divisor: GLuint); {$IFDEF DGL_WIN}stdcall; {$ELSE}cdecl; {$ENDIF}
 
@@ -12342,6 +12350,9 @@ var
   glFramebufferTextureARB: TglFramebufferTextureARB;
   glFramebufferTextureLayerARB: TglFramebufferTextureLayerARB;
   glFramebufferTextureFaceARB: TglFramebufferTextureFaceARB;
+
+  // GL_ARB_gl_spirv
+  glSpecializeShaderARB: TglSpecializeShaderARB;
 
   // GL_ARB_instanced_arrays
   glVertexAttribDivisorARB: TglVertexAttribDivisorARB;
@@ -16560,6 +16571,11 @@ begin
   glFramebufferTextureFaceARB := dglGetProcAddress('glFramebufferTextureFaceARB');
 end;
 
+procedure Read_GL_ARB_gl_spirv;
+begin
+  glSpecializeShaderARB := dglGetProcAddress('glSpecializeShaderARB');
+end;
+
 procedure Read_GL_ARB_instanced_arrays;
 begin
   glVertexAttribDivisorARB := dglGetProcAddress('glVertexAttribDivisorARB');
@@ -19333,6 +19349,7 @@ begin
   Read_GL_ARB_draw_instanced;
   Read_GL_ARB_framebuffer_object;
   Read_GL_ARB_geometry_shader4;
+  Read_GL_ARB_gl_spirv;
   Read_GL_ARB_gpu_shader_int64;
   Read_GL_ARB_instanced_arrays;
   Read_GL_ARB_map_buffer_range;
@@ -19796,6 +19813,7 @@ begin
   GL_ARB_framebuffer_object := Int_CheckExtension(Buffer, 'GL_ARB_framebuffer_object');
   GL_ARB_framebuffer_sRGB := Int_CheckExtension(Buffer, 'GL_ARB_framebuffer_sRGB');
   GL_ARB_geometry_shader4 := Int_CheckExtension(Buffer, 'GL_ARB_geometry_shader4');
+  GL_ARB_gl_spirv := Int_CheckExtension(Buffer, 'GL_ARB_gl_spirv');
   GL_ARB_half_float_vertex := Int_CheckExtension(Buffer, 'GL_ARB_half_float_vertex');
   GL_ARB_instanced_arrays := Int_CheckExtension(Buffer, 'GL_ARB_instanced_arrays');
   GL_ARB_map_buffer_range := Int_CheckExtension(Buffer, 'GL_ARB_map_buffer_range');
