@@ -17413,22 +17413,22 @@ end;
 
 procedure Read_GL_ARB_bindless_texture;
 begin
-  glGetTextureHandleARB := dglGetProcAddress('TglGetTextureHandleARB');
-  glGetTextureSamplerHandleARB := dglGetProcAddress('TglGetTextureSamplerHandleARB');
-  glMakeTextureHandleResidentARB := dglGetProcAddress('TglMakeTextureHandleResidentARB');
-  glMakeTextureHandleNonResidentARB := dglGetProcAddress('TglMakeTextureHandleNonResidentARB');
-  glGetImageHandleARB := dglGetProcAddress('TglGetImageHandleARB');
-  glMakeImageHandleResidentARB := dglGetProcAddress('TglMakeImageHandleResidentARB');
-  glMakeImageHandleNonResidentARB := dglGetProcAddress('TglMakeImageHandleNonResidentARB');
-  glUniformHandleui64ARB := dglGetProcAddress('TglUniformHandleui64ARB');
-  glUniformHandleui64vARB := dglGetProcAddress('TglUniformHandleui64vARB');
-  glProgramUniformHandleui64ARB := dglGetProcAddress('TglProgramUniformHandleui64ARB');
-  glProgramUniformHandleui64vARB := dglGetProcAddress('TglProgramUniformHandleui64vARB');
-  glIsTextureHandleResidentARB := dglGetProcAddress('TglIsTextureHandleResidentARB');
-  glIsImageHandleResidentARB := dglGetProcAddress('TglIsImageHandleResidentARB');
-  glVertexAttribL1ui64ARB := dglGetProcAddress('TglVertexAttribL1ui64ARB');
-  glVertexAttribL1ui64vARB := dglGetProcAddress('TglVertexAttribL1ui64vARB');
-  glGetVertexAttribLui64vARB := dglGetProcAddress('TglGetVertexAttribLui64vARB');
+  glGetTextureHandleARB := dglGetProcAddress('glGetTextureHandleARB');
+  glGetTextureSamplerHandleARB := dglGetProcAddress('glGetTextureSamplerHandleARB');
+  glMakeTextureHandleResidentARB := dglGetProcAddress('glMakeTextureHandleResidentARB');
+  glMakeTextureHandleNonResidentARB := dglGetProcAddress('glMakeTextureHandleNonResidentARB');
+  glGetImageHandleARB := dglGetProcAddress('glGetImageHandleARB');
+  glMakeImageHandleResidentARB := dglGetProcAddress('glMakeImageHandleResidentARB');
+  glMakeImageHandleNonResidentARB := dglGetProcAddress('glMakeImageHandleNonResidentARB');
+  glUniformHandleui64ARB := dglGetProcAddress('glUniformHandleui64ARB');
+  glUniformHandleui64vARB := dglGetProcAddress('glUniformHandleui64vARB');
+  glProgramUniformHandleui64ARB := dglGetProcAddress('glProgramUniformHandleui64ARB');
+  glProgramUniformHandleui64vARB := dglGetProcAddress('glProgramUniformHandleui64vARB');
+  glIsTextureHandleResidentARB := dglGetProcAddress('glIsTextureHandleResidentARB');
+  glIsImageHandleResidentARB := dglGetProcAddress('glIsImageHandleResidentARB');
+  glVertexAttribL1ui64ARB := dglGetProcAddress('glVertexAttribL1ui64ARB');
+  glVertexAttribL1ui64vARB := dglGetProcAddress('glVertexAttribL1ui64vARB');
+  glGetVertexAttribLui64vARB := dglGetProcAddress('glGetVertexAttribLui64vARB');
 end;
 
 procedure Read_GL_ARB_cl_event;
@@ -19434,7 +19434,8 @@ begin
   Read_GL_ARB_robustness;
   Read_GL_ARB_ES2_compatibility;
   Read_GL_ARB_ES3_2_compatibility;
-  Read_GL_ARB_parallel_shader_compile;  
+  Read_GL_ARB_parallel_shader_compile;
+  Read_GL_ARB_bindless_texture;
 
   // Vendor
   Read_GL_3DFX_tbuffer;
